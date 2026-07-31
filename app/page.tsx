@@ -3,7 +3,7 @@ import Hero from "@/components/landing/Hero";
 // import Statistics from "@/components/landing/Statistics";
 // import HowItWorks from "@/components/landing/HowItWorks";
 // import WhyTrustMall from "@/components/landing/WhyTrustMall";
-// import Categories from "@/components/landing/Categories";
+import Categories from "@/components/landing/Categories";
 // import FeaturedProducts from "@/components/landing/FeaturedProducts";
 // import Escrow from "@/components/landing/Escrow";
 // import CrossBorder from "@/components/landing/CrossBorder";
@@ -30,7 +30,7 @@ export default function Home() {
       {/* <WhyTrustMall /> */}
 
       {/* Marketplace Categories */}
-      {/* <Categories /> */}
+      <Categories />
 
       {/* Featured Products */}
       {/* <FeaturedProducts /> */}

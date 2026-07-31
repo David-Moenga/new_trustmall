@@ -1,198 +1,125 @@
 import Link from "next/link";
+import { Mail, Phone, MapPin } from "lucide-react";
+
 import {
-  Facebook,
-  Twitter,
-  Instagram,
-  Linkedin,
-  Github,
-  Mail,
-  Phone,
-  MapPin,
-  ArrowUpRight,
-} from "lucide-react";
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+} from "react-icons/fa";
 
-const company = [
-  { name: "About Us", href: "/about" },
-  { name: "Our Story", href: "/about" },
-  { name: "Careers", href: "/careers" },
-  { name: "Contact", href: "/contact" },
-];
+import { FaXTwitter } from "react-icons/fa6";
 
-const marketplace = [
+const quickLinks = [
   { name: "Marketplace", href: "/marketplace" },
   { name: "Categories", href: "/categories" },
-  { name: "Become a Seller", href: "/seller" },
   { name: "How It Works", href: "/how-it-works" },
+  { name: "Start Selling", href: "/seller" },
 ];
 
-const support = [
-  { name: "Help Center", href: "/help" },
-  { name: "Buyer Protection", href: "/buyer-protection" },
-  { name: "Escrow Policy", href: "/escrow-policy" },
-  { name: "Shipping Guide", href: "/shipping" },
-];
-
-const legal = [
-  { name: "Privacy Policy", href: "/privacy-policy" },
-  { name: "Terms & Conditions", href: "/terms" },
-  { name: "Cookie Policy", href: "/cookies" },
-  { name: "Refund Policy", href: "/refund-policy" },
+const socialLinks = [
+  { icon: FaFacebookF, href: "#", label: "Facebook" },
+  { icon: FaXTwitter, href: "#", label: "X" },
+  { icon: FaInstagram, href: "#", label: "Instagram" },
+  { icon: FaLinkedinIn, href: "#", label: "LinkedIn" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="border-t border-gray-200 bg-gray-50">
-      <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-        <div className="grid gap-14 lg:grid-cols-5">
+    <footer className="border-t border-gray-200 bg-white">
+      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+        <div className="grid gap-12 md:grid-cols-3">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div>
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-sm bg-[#D4AF37] text-xl font-bold text-white">
                 T
               </div>
 
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-gray-900">
                   TrustMall
                 </h2>
 
                 <p className="text-sm text-gray-500">
-                  Secure Cross-Border Commerce
+                  Trade with Confidence
                 </p>
               </div>
             </div>
 
-            <p className="mt-6 max-w-md leading-7 text-gray-600">
-              TrustMall is a decentralized escrow-powered marketplace
-              enabling buyers and sellers to trade confidently across borders
-              through secure payments, trusted logistics partners, and
-              transparent transactions.
+            <p className="mt-5 text-gray-600 leading-7">
+              A decentralized escrow-powered marketplace designed to make
+              online buying and selling safer through secure payments,
+              verified users, and transparent transactions.
             </p>
+          </div>
 
-            <div className="mt-8 space-y-3 text-gray-600">
-              <div className="flex items-center gap-3">
+          {/* Quick Links */}
+          <div>
+            <h3 className="mb-5 text-lg font-semibold text-gray-900">
+              Quick Links
+            </h3>
+
+            <ul className="space-y-3">
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-600 transition hover:text-[#D4AF37]"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h3 className="mb-5 text-lg font-semibold text-gray-900">
+              Contact
+            </h3>
+
+            <div className="space-y-4">
+              <Link
+                href="mailto:hello@trustmall.com"
+                className="flex items-center gap-3 text-gray-600 hover:text-[#D4AF37]"
+              >
                 <Mail size={18} className="text-[#D4AF37]" />
                 hello@trustmall.com
-              </div>
+              </Link>
 
-              <div className="flex items-center gap-3">
+              <Link
+                href="tel:+254700000000"
+                className="flex items-center gap-3 text-gray-600 hover:text-[#D4AF37]"
+              >
                 <Phone size={18} className="text-[#D4AF37]" />
                 +254 XXX XXX XXX
-              </div>
+              </Link>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 text-gray-600">
                 <MapPin size={18} className="text-[#D4AF37]" />
                 Nairobi, Kenya
               </div>
             </div>
 
-            <div className="mt-8 flex gap-4">
-              {[Facebook, Twitter, Instagram, Linkedin, Github].map(
-                (Icon, index) => (
-                  <a
-                    key={index}
-                    href="#"
-                    className="rounded-sm border border-gray-300 p-2 transition hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-white"
-                  >
-                    <Icon size={18} />
-                  </a>
-                )
-              )}
+            <div className="mt-6 flex gap-3">
+              {socialLinks.map(({ icon: Icon, href, label }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="flex h-10 w-10 items-center justify-center rounded-sm border border-gray-300 transition hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-white"
+                >
+                  <Icon size={18} />
+                </Link>
+              ))}
             </div>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="mb-6 text-lg font-semibold text-gray-900">
-              Company
-            </h3>
-
-            <ul className="space-y-4">
-              {company.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-1 text-gray-600 transition hover:text-[#D4AF37]"
-                  >
-                    {item.name}
-                    <ArrowUpRight size={14} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Marketplace */}
-          <div>
-            <h3 className="mb-6 text-lg font-semibold text-gray-900">
-              Marketplace
-            </h3>
-
-            <ul className="space-y-4">
-              {marketplace.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-1 text-gray-600 transition hover:text-[#D4AF37]"
-                  >
-                    {item.name}
-                    <ArrowUpRight size={14} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support + Legal */}
-          <div>
-            <h3 className="mb-6 text-lg font-semibold text-gray-900">
-              Support
-            </h3>
-
-            <ul className="space-y-4">
-              {support.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-1 text-gray-600 transition hover:text-[#D4AF37]"
-                  >
-                    {item.name}
-                    <ArrowUpRight size={14} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            <h3 className="mb-6 mt-10 text-lg font-semibold text-gray-900">
-              Legal
-            </h3>
-
-            <ul className="space-y-4">
-              {legal.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-1 text-gray-600 transition hover:text-[#D4AF37]"
-                  >
-                    {item.name}
-                    <ArrowUpRight size={14} />
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 
         {/* Bottom */}
-
-        <div className="mt-20 flex flex-col items-center justify-between gap-4 border-t border-gray-200 pt-8 text-sm text-gray-500 md:flex-row">
-          <p>
-            © {new Date().getFullYear()} TrustMall. All rights reserved.
-          </p>
-
-          <p>
-            Building the future of secure cross-border commerce.
-          </p>
+        <div className="mt-12 border-t border-gray-200 pt-6 text-center text-sm text-gray-500">
+          © {new Date().getFullYear()} TrustMall. All rights reserved.
         </div>
       </div>
     </footer>
