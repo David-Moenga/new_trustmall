@@ -36,9 +36,9 @@ export default function FilterSidebar() {
   };
 
   return (
-    <aside className="sticky top-28 rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+    <aside className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm sm:p-6 lg:sticky lg:top-28">
       {/* Header */}
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-6 flex items-center justify-between sm:mb-8">
         <div className="flex items-center gap-2">
           <SlidersHorizontal
             className="text-[#D4AF37]"

@@ -6,7 +6,7 @@ import ProductCard from "./ProductCard";
 const products = [
   {
     id: 1,
-    image: "/images/products/iphone.jpg",
+    image: "/images/categories/electronics.jpeg",
     title: "Apple iPhone 15 Pro Max",
     description:
       "Brand new iPhone 15 Pro Max with 256GB storage and official warranty.",
@@ -21,7 +21,7 @@ const products = [
   },
   {
     id: 2,
-    image: "/images/products/toyota.jpg",
+    image: "/images/categories/automotive.jpeg",
     title: "Toyota Land Cruiser Prado",
     description:
       "2018 model, excellent condition, low mileage, accident free.",
@@ -36,7 +36,7 @@ const products = [
   },
   {
     id: 3,
-    image: "/images/products/laptop.jpg",
+    image: "/images/categories/electronics.jpeg",
     title: "MacBook Pro M3",
     description:
       "Apple MacBook Pro with M3 chip, 16GB RAM, 512GB SSD.",
@@ -51,7 +51,7 @@ const products = [
   },
   {
     id: 4,
-    image: "/images/products/tractor.jpg",
+    image: "/images/categories/agriculture.jpeg",
     title: "Massey Ferguson Tractor",
     description:
       "Reliable farming tractor suitable for medium and large farms.",
@@ -65,7 +65,7 @@ const products = [
   },
   {
     id: 5,
-    image: "/images/products/house.jpg",
+    image: "/images/categories/real-estate.jpg",
     title: "3 Bedroom Modern House",
     description:
       "Spacious modern home located in a secure gated community.",
@@ -79,7 +79,7 @@ const products = [
   },
   {
     id: 6,
-    image: "/images/products/sofa.jpg",
+    image: "/images/categories/home.png",
     title: "Luxury L-Shaped Sofa",
     description:
       "Premium leather sofa designed for modern living rooms.",
@@ -94,7 +94,7 @@ const products = [
   },
   {
     id: 7,
-    image: "/images/products/shoes.jpg",
+    image: "/images/categories/fashion.jpeg",
     title: "Nike Air Max",
     description:
       "Comfortable original Nike sneakers for everyday wear.",
@@ -109,7 +109,7 @@ const products = [
   },
   {
     id: 8,
-    image: "/images/products/watch.jpg",
+    image: "/images/categories/electronics.jpeg",
     title: "Samsung Galaxy Watch",
     description:
       "Smartwatch with health tracking and Bluetooth connectivity.",
@@ -131,7 +131,7 @@ export default function ProductGrid() {
   return (
     <section>
       {/* Grid */}
-      <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-3 xl:gap-8">
         {displayedProducts.map((product) => (
           <ProductCard
             key={product.id}

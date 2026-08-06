@@ -10,10 +10,6 @@ import {
   Building2,
   Briefcase,
   Wrench,
-  BookOpen,
-  HeartPulse,
-  Dumbbell,
-  PawPrint,
   ArrowRight,
   ArrowUpRight,
   ShieldCheck,
@@ -96,10 +92,10 @@ const formatCount = (n: number) =>
 
 export default function Categories() {
   return (
-    <section className="relative overflow-hidden bg-white py-24">
+    <section className="relative overflow-hidden bg-white py-16 sm:py-24">
       <div className="absolute inset-x-0 top-0 h-96 bg-[radial-gradient(circle_at_top,#FFF8E1,transparent_70%)]" />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
 
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
@@ -108,7 +104,7 @@ export default function Categories() {
               Browse Categories
             </span>
 
-            <h2 className="mt-6 text-4xl font-bold tracking-tight text-gray-900 lg:text-5xl">
+            <h2 className="mt-5 text-3xl font-bold tracking-tight text-gray-900 sm:mt-6 sm:text-4xl lg:text-5xl">
               Discover Everything in One Marketplace
             </h2>
 
@@ -121,7 +117,7 @@ export default function Categories() {
 
           <Link
             href="/marketplace"
-            className="inline-flex items-center gap-2 rounded-sm border border-gray-300 px-6 py-3 font-semibold transition hover:border-[#D4AF37] hover:bg-[#FFF8E1]"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-sm border border-gray-300 px-6 py-3 font-semibold transition hover:border-[#D4AF37] hover:bg-[#FFF8E1] sm:w-auto"
           >
             Explore Marketplace
             <ArrowRight size={18} />
@@ -130,10 +126,8 @@ export default function Categories() {
 
         {/* Categories */}
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:mt-16 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
           {categories.map((category) => {
-            const Icon = category.icon;
-
             return (
               <Link
                 key={category.name}
@@ -194,33 +188,33 @@ export default function Categories() {
 
         {/* Statistics */}
 
-        <div className="mt-20 grid gap-6 rounded-xl border border-[#D4AF37]/20 bg-gray-300 p-8 md:grid-cols-4">
+        <div className="mt-14 grid grid-cols-2 gap-5 rounded-xl border border-[#D4AF37]/20 bg-gray-300 p-5 sm:mt-20 sm:gap-6 sm:p-8 md:grid-cols-4">
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-[#D4AF37]">
+            <h3 className="text-2xl font-bold text-[#D4AF37] sm:text-3xl">
               {formatCount(totalListings)}
             </h3>
             <p className="mt-2 text-gray-600">Marketplace Listings</p>
           </div>
 
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-[#D4AF37]">2k+</h3>
+            <h3 className="text-2xl font-bold text-[#D4AF37] sm:text-3xl">2k+</h3>
             <p className="mt-2 text-gray-600">Verified Sellers</p>
           </div>
 
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-[#D4AF37]">100%</h3>
+            <h3 className="text-2xl font-bold text-[#D4AF37] sm:text-3xl">100%</h3>
             <p className="mt-2 text-gray-600">Escrow Protected</p>
           </div>
 
           <div className="text-center">
-            <h3 className="text-3xl font-bold text-[#D4AF37]">24/7</h3>
+            <h3 className="text-2xl font-bold text-[#D4AF37] sm:text-3xl">24/7</h3>
             <p className="mt-2 text-gray-600">Customer Support</p>
           </div>
         </div>
 
         {/* Trust Section */}
 
-        <div className="mt-20 rounded-xl border border-[#D4AF37]/20 bg-gray-300 p-10">
+        <div className="mt-14 rounded-xl border border-[#D4AF37]/20 bg-gray-300 p-6 sm:mt-20 sm:p-10">
           <div className="grid gap-10 md:grid-cols-3">
             <div>
               <ShieldCheck className="text-[#D4AF37]" size={34} />

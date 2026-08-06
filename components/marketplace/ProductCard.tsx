@@ -48,7 +48,7 @@ export default function ProductCard({
   return (
     <article className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
       {/* Image */}
-      <div className="relative h-64 overflow-hidden">
+      <div className="relative h-56 overflow-hidden sm:h-64">
         <Image
           src={image}
           alt={title}
@@ -76,7 +76,7 @@ export default function ProductCard({
       </div>
 
       {/* Body */}
-      <div className="p-6">
+      <div className="p-5 sm:p-6">
         {/* Category */}
         <span className="rounded-full bg-[#FFF8E1] px-3 py-1 text-xs font-semibold text-[#A67C00]">
           {category}
@@ -93,8 +93,8 @@ export default function ProductCard({
         </p>
 
         {/* Price */}
-        <div className="mt-5 flex items-center gap-3">
-          <span className="text-2xl font-bold text-[#D4AF37]">
+        <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span className="text-xl font-bold text-[#D4AF37] sm:text-2xl">
             KSh {price.toLocaleString()}
           </span>
 
@@ -106,7 +106,7 @@ export default function ProductCard({
         </div>
 
         {/* Seller */}
-        <div className="mt-6 flex items-center justify-between">
+        <div className="mt-6 flex items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-1">
               <p className="font-semibold text-gray-800">
@@ -127,7 +127,7 @@ export default function ProductCard({
             </div>
           </div>
 
-          <div className="text-right">
+          <div className="shrink-0 text-right">
             <div className="flex items-center justify-end gap-1">
               <Star
                 size={15}
@@ -149,8 +149,8 @@ export default function ProductCard({
         <div className="my-6 border-t border-gray-200" />
 
         {/* Bottom */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-sm text-[#A67C00]">
+        <div className="flex items-center justify-between gap-3">
+          <div className="hidden items-center gap-2 text-sm text-[#A67C00] sm:flex">
             <ShieldCheck size={18} />
             Protected Trade
           </div>

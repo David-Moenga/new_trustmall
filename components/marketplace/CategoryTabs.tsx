@@ -100,24 +100,39 @@ const categories = [
 
 export default function CategoryTabs() {
   const [active, setActive] = useState("all");
+  const activeCategory = categories.find((category) => category.id === active);
 
   return (
-    <section>
+    <section className="rounded-2xl border border-gray-100 bg-gradient-to-br from-white to-[#FFFCF2] p-5 shadow-sm sm:p-6">
       {/* Header */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">
+          <div className="mb-2 flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#D4AF37]" />
+            <span className="text-xs font-bold uppercase tracking-[0.16em] text-[#A67C00]">
+              Explore
+            </span>
+          </div>
+          <h2 id="category-tabs-heading" className="text-xl font-bold text-gray-900 sm:text-2xl">
             Browse Categories
           </h2>
 
-          <p className="mt-1 text-gray-500">
+          <p className="mt-1 text-sm text-gray-500 sm:text-base">
             Quickly explore products across different categories.
           </p>
         </div>
+
+        <span className="hidden shrink-0 rounded-full border border-[#D4AF37]/20 bg-white px-3 py-1.5 text-sm font-semibold text-[#A67C00] sm:inline-flex">
+          {activeCategory?.count.toLocaleString()} listings
+        </span>
       </div>
 
       {/* Scrollable Categories */}
-      <div className="scrollbar-hide flex gap-4 overflow-x-auto pb-3">
+      <div
+        role="tablist"
+        aria-labelledby="category-tabs-heading"
+        className="scrollbar-hide -mx-1 flex gap-3 overflow-x-auto px-1 pb-2 pt-1"
+      >
         {categories.map((category) => {
           const Icon = category.icon;
 
@@ -127,28 +142,30 @@ export default function CategoryTabs() {
             <button
               key={category.id}
               onClick={() => setActive(category.id)}
-              className={`group min-w-[150px] rounded-xl border p-4 text-left transition-all duration-300 ${
+              role="tab"
+              aria-selected={activeTab}
+              className={`group min-w-[136px] rounded-xl border p-3.5 text-left transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4AF37] ${
                 activeTab
-                  ? "border-[#D4AF37] bg-[#FFF8E1] shadow-md"
-                  : "border-gray-200 bg-white hover:border-[#D4AF37] hover:-translate-y-1 hover:shadow-md"
+                  ? "border-[#D4AF37] bg-[#FFF8E1] shadow-[0_8px_20px_rgba(212,175,55,0.18)]"
+                  : "border-gray-100 bg-white/90 hover:-translate-y-0.5 hover:border-[#D4AF37]/60 hover:shadow-md"
               }`}
             >
               <div
-                className={`flex h-12 w-12 items-center justify-center rounded-lg ${
+                className={`flex h-10 w-10 items-center justify-center rounded-lg transition-colors ${
                   activeTab
                     ? "bg-[#D4AF37] text-white"
-                    : "bg-gray-100 text-gray-600 group-hover:bg-[#D4AF37] group-hover:text-white"
-                } transition`}
+                    : "bg-gray-100 text-gray-600 group-hover:bg-[#FFF8E1] group-hover:text-[#A67C00]"
+                }`}
               >
-                <Icon size={24} />
+                <Icon size={20} />
               </div>
 
-              <h3 className="mt-4 font-semibold text-gray-900">
+              <h3 className="mt-3 font-semibold text-gray-900">
                 {category.name}
               </h3>
 
-              <p className="mt-1 text-sm text-gray-500">
-                {category.count} Products
+              <p className={`mt-1 text-xs font-medium ${activeTab ? "text-[#A67C00]" : "text-gray-500"}`}>
+                {category.count.toLocaleString()} products
               </p>
             </button>
           );
