@@ -11,6 +11,7 @@ import { FaXTwitter } from "react-icons/fa6";
 
 const quickLinks = [
   { name: "Marketplace", href: "/marketplace" },
+  { name: "Hire Freelancers", href: "/freelancers" },
   { name: "Categories", href: "/categories" },
   { name: "How It Works", href: "/how-it-works" },
   { name: "Start Selling", href: "/seller" },

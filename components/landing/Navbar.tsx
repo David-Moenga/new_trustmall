@@ -7,6 +7,7 @@ import { Menu, X, ShoppingCart, ArrowRight } from "lucide-react";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Marketplace", href: "/marketplace" },
+  { name: "Freelancers", href: "/freelancers" },
   { name: "Categories", href: "/categories" },
   { name: "How It Works", href: "/how-it-works" },
   { name: "Start Selling", href: "/seller" },
