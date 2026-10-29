@@ -1,11 +1,79 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Eye, EyeOff, LockKeyhole, Mail, ShieldCheck, UserRound } from "lucide-react";
 
+interface SignupFormErrors {
+  fullName?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  terms?: string;
+}
+
 export default function SignupPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [terms, setTerms] = useState(false);
+  const [error, setError] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<SignupFormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError("");
+
+    const nextFieldErrors: SignupFormErrors = {};
+    if (fullName.trim().length < 2) {
+      nextFieldErrors.fullName = "Please enter your full name.";
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      nextFieldErrors.email = "Please enter a valid email address.";
+    }
+    if (password.length < 8) {
+      nextFieldErrors.password = "Password must be at least 8 characters.";
+    }
+    if (confirmPassword !== password) {
+      nextFieldErrors.confirmPassword = "Passwords do not match.";
+    }
+    if (!terms) {
+      nextFieldErrors.terms = "You must agree to the Terms of Service and Privacy Policy to continue.";
+    }
+
+    setFieldErrors(nextFieldErrors);
+    if (Object.keys(nextFieldErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName, email, password, terms }),
+        credentials: "include",
+      });
+
+      const data = (await response.json().catch(() => null)) as { error?: string };
+
+      if (!response.ok) {
+        setError(data?.error ?? "Unable to create your account. Please try again.");
+        return;
+      }
+
+      router.push("/marketplace");
+    } catch {
+      setError("Unable to create your account. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh-64px)] max-w-6xl items-center justify-center px-4 py-8 sm:min-h-[calc(100vh-81px)] sm:px-6 sm:py-12 lg:px-8">
@@ -17,13 +85,100 @@ export default function SignupPage() {
           <p className="mt-3 text-gray-500">Buy and sell with confidence through protected escrow payments.</p>
         </div>
 
-        <form className="mt-8 space-y-5" onSubmit={(event) => event.preventDefault()}>
-          <label className="block text-sm font-semibold text-gray-700">Full name<span className="relative mt-2 block"><UserRound size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" /><input type="text" required autoComplete="name" placeholder="Your full name" className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-4 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:bg-white focus:ring-4 focus:ring-[#D4AF37]/10" /></span></label>
-          <label className="block text-sm font-semibold text-gray-700">Email address<span className="relative mt-2 block"><Mail size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" /><input type="email" required autoComplete="email" placeholder="you@example.com" className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-4 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:bg-white focus:ring-4 focus:ring-[#D4AF37]/10" /></span></label>
-          <label className="block text-sm font-semibold text-gray-700">Password<span className="relative mt-2 block"><LockKeyhole size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" /><input type={showPassword ? "text" : "password"} required minLength={8} autoComplete="new-password" placeholder="At least 8 characters" className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-11 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:bg-white focus:ring-4 focus:ring-[#D4AF37]/10" /><button type="button" aria-label={showPassword ? "Hide password" : "Show password"} onClick={() => setShowPassword((value) => !value)} className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-gray-400 transition hover:text-[#A67C00]">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button></span></label>
-          <label className="flex cursor-pointer items-start gap-3 text-sm leading-5 text-gray-600"><input type="checkbox" required className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-[#D4AF37]" />I agree to the Terms of Service and Privacy Policy.</label>
-          <button type="submit" className="h-12 w-full rounded-lg bg-[#D4AF37] font-bold text-white shadow-md transition hover:bg-[#BB9627] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4AF37]">Create account</button>
+        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
+          <label className="block text-sm font-semibold text-gray-700">
+            Full name
+            <span className="relative mt-2 block">
+              <UserRound size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                required
+                autoComplete="name"
+                placeholder="Your full name"
+                value={fullName}
+                onChange={(event) => setFullName(event.target.value)}
+                className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-4 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:bg-white focus:ring-4 focus:ring-[#D4AF37]/10"
+              />
+            </span>
+            {fieldErrors.fullName ? <span className="mt-2 block text-sm font-medium text-red-600">{fieldErrors.fullName}</span> : null}
+          </label>
+
+          <label className="block text-sm font-semibold text-gray-700">
+            Email address
+            <span className="relative mt-2 block">
+              <Mail size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-4 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:bg-white focus:ring-4 focus:ring-[#D4AF37]/10"
+              />
+            </span>
+            {fieldErrors.email ? <span className="mt-2 block text-sm font-medium text-red-600">{fieldErrors.email}</span> : null}
+          </label>
+
+          <label className="block text-sm font-semibold text-gray-700">
+            Password
+            <span className="relative mt-2 block">
+              <LockKeyhole size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                minLength={8}
+                autoComplete="new-password"
+                placeholder="At least 8 characters"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-11 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:bg-white focus:ring-4 focus:ring-[#D4AF37]/10"
+              />
+              <button type="button" aria-label={showPassword ? "Hide password" : "Show password"} onClick={() => setShowPassword((value) => !value)} className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-gray-400 transition hover:text-[#A67C00]">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button>
+            </span>
+            {fieldErrors.password ? <span className="mt-2 block text-sm font-medium text-red-600">{fieldErrors.password}</span> : null}
+          </label>
+
+          <label className="block text-sm font-semibold text-gray-700">
+            Confirm password
+            <span className="relative mt-2 block">
+              <LockKeyhole size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                minLength={8}
+                autoComplete="new-password"
+                placeholder="At least 8 characters"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                className="h-12 w-full rounded-lg border border-gray-200 bg-gray-50 pl-11 pr-11 text-gray-900 outline-none transition focus:border-[#D4AF37] focus:bg-white focus:ring-4 focus:ring-[#D4AF37]/10"
+              />
+              <button type="button" aria-label={showPassword ? "Hide password" : "Show password"} onClick={() => setShowPassword((value) => !value)} className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-gray-400 transition hover:text-[#A67C00]">{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button>
+            </span>
+            {fieldErrors.confirmPassword ? <span className="mt-2 block text-sm font-medium text-red-600">{fieldErrors.confirmPassword}</span> : null}
+          </label>
+
+          <label className="flex cursor-pointer items-start gap-3 text-sm leading-5 text-gray-600">
+            <input type="checkbox" required className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-[#D4AF37]" checked={terms} onChange={(event) => setTerms(event.target.checked)} />
+            I agree to the Terms of Service and Privacy Policy.
+          </label>
+          {fieldErrors.terms ? <span className="block text-sm font-medium text-red-600">{fieldErrors.terms}</span> : null}
+
+          {error ? (
+            <p role="alert" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-600">
+              {error}
+            </p>
+          ) : null}
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="h-12 w-full rounded-lg bg-[#D4AF37] font-bold text-white shadow-md transition hover:bg-[#BB9627] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            {isSubmitting ? "Creating account…" : "Create account"}
+          </button>
         </form>
+
         <p className="mt-7 text-center text-sm text-gray-600">Already have an account? <Link href="/login" className="font-bold text-[#A67C00] hover:text-[#D4AF37]">Sign in</Link></p>
       </section>
     </div>
